@@ -1,0 +1,1464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0016">
+<title>Lucy Yun, will you be my Valentine?</title>
+
+<style>
+:root{
+  --bg0:#05000b;
+  --bg1:#0b0016;
+  --ink:#ffffff;
+  --muted:rgba(255,255,255,.76);
+
+  --card:rgba(8,0,18,.72);
+  --cardBorder:rgba(190,120,255,.22);
+  --glow:rgba(190,120,255,.32);
+
+  --accent:#b23cff;
+  --accent2:#ff3ca8;
+
+  --danger:#ff2a2a;
+
+  --radius:26px;
+  --shadow:0 26px 90px rgba(0,0,0,.46);
+
+  --bgImg:url("assets/jjk_bg.jpg");
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 800px at 20% 20%, rgba(178,60,255,.20), transparent 60%),
+    radial-gradient(1200px 800px at 80% 30%, rgba(255,60,168,.14), transparent 60%),
+    linear-gradient(180deg, var(--bg0), var(--bg1));
+  overflow:hidden;
+  padding:22px;
+  touch-action:manipulation;
+}
+
+.bgPhoto{
+  position:fixed;
+  inset:0;
+  background-image:var(--bgImg);
+  background-size:cover;
+  background-position:center;
+  filter:saturate(1.05) contrast(1.05);
+  opacity:.25;
+  transform:scale(1.02);
+  pointer-events:none;
+}
+
+.grain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.10;
+  background-image:radial-gradient(rgba(255,255,255,.55) 1px, transparent 1px);
+  background-size:6px 6px;
+  mix-blend-mode:overlay;
+}
+
+.card{
+  width:min(1020px,96%);
+  min-height:580px;
+  background:var(--card);
+  border:1px solid var(--cardBorder);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:30px;
+  position:relative;
+  overflow:hidden;
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+}
+
+.topRow{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+
+h1{
+  margin:0;
+  font-size:40px;
+  letter-spacing:-.2px;
+}
+
+.sub{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:16px;
+  line-height:1.35;
+}
+
+.fsBtn{
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.86);
+  border-radius:999px;
+  padding:10px 12px;
+  font-size:13px;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.grid{
+  margin-top:22px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:14px;
+}
+
+.tile{
+  background:rgba(0,0,0,.24);
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:22px;
+  padding:18px;
+  box-shadow:0 14px 34px rgba(0,0,0,.18);
+  position:relative;
+  overflow:hidden;
+}
+
+.badgeLine{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:72px;height:72px;
+  border-radius:20px;
+  border:1px solid rgba(255,255,255,.14);
+  background:radial-gradient(circle at 30% 30%, rgba(178,60,255,.28), transparent 60%),
+             radial-gradient(circle at 70% 70%, rgba(255,60,168,.18), transparent 55%),
+             rgba(255,255,255,.06);
+  display:grid;
+  place-items:center;
+  box-shadow:0 18px 44px rgba(178,60,255,.18);
+  user-select:none;
+  position:relative;
+}
+
+.avatarFace{
+  font-size:30px;
+  line-height:1;
+}
+
+.avatarAura{
+  position:absolute;
+  inset:-16px;
+  border-radius:26px;
+  border:1px solid rgba(178,60,255,.18);
+  box-shadow:0 0 34px rgba(178,60,255,.22), inset 0 0 20px rgba(255,60,168,.10);
+  opacity:.8;
+  pointer-events:none;
+  animation:auraPulse 2.3s ease-in-out infinite;
+}
+
+@keyframes auraPulse{
+  0%{ transform:scale(.98); opacity:.55; }
+  50%{ transform:scale(1.02); opacity:.86; }
+  100%{ transform:scale(.98); opacity:.55; }
+}
+
+.smallText{
+  font-size:14px;
+  color:rgba(255,255,255,.74);
+  line-height:1.35;
+}
+
+.row{
+  margin-top:18px;
+  height:96px;
+  position:relative;
+}
+
+button{
+  border:0;
+  border-radius:18px;
+  padding:14px 20px;
+  font-size:18px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#yesBtn{
+  position:absolute;
+  background:linear-gradient(180deg, rgba(255,60,168,.96), rgba(178,60,255,.92));
+  color:#fff;
+  min-width:200px;
+  box-shadow:0 18px 44px rgba(255,60,168,.18);
+}
+
+#noBtn{
+  position:absolute;
+  background:rgba(255,255,255,.92);
+  color:#000;
+  border:1px solid rgba(0,0,0,.18);
+  min-width:200px;
+  box-shadow:0 18px 44px rgba(0,0,0,.22);
+  transition:left .14s ease, top .14s ease;
+  touch-action:manipulation;
+}
+
+.cursedRing{
+  position:absolute;
+  inset:-10px;
+  border-radius:24px;
+  pointer-events:none;
+  border:1px solid rgba(178,60,255,.25);
+  box-shadow:
+    0 0 18px rgba(178,60,255,.22),
+    0 0 44px rgba(255,60,168,.12),
+    inset 0 0 22px rgba(178,60,255,.12);
+  opacity:.95;
+}
+
+.note{
+  margin-top:14px;
+  padding:14px 14px;
+  background:rgba(178,60,255,.10);
+  border:1px solid rgba(178,60,255,.22);
+  border-radius:16px;
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  font-size:16px;
+  line-height:1.35;
+}
+
+.altNo{
+  margin-top:12px;
+  font-size:14px;
+  color:rgba(255,255,255,.70);
+}
+
+.altNo a{
+  color:#fff;
+  text-decoration:underline;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.small{
+  margin-top:12px;
+  font-size:13px;
+  color:rgba(255,255,255,.60);
+}
+
+/* right panel */
+.panelImg{
+  width:100%;
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.12);
+  display:block;
+  box-shadow:0 18px 70px rgba(0,0,0,.44);
+}
+
+.panelTitle{
+  margin:12px 0 0 0;
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.2px;
+}
+
+.panelSub{
+  margin-top:8px;
+  color:rgba(255,255,255,.76);
+  font-size:14px;
+  line-height:1.35;
+}
+
+.panelTags{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.tag{
+  font-size:12px;
+  padding:8px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.84);
+}
+
+/* intro overlay */
+.intro{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:120;
+  background:rgba(0,0,0,.78);
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+}
+
+.introCard{
+  width:min(560px,94%);
+  border-radius:24px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(8,0,18,.76);
+  box-shadow:0 30px 120px rgba(0,0,0,.62);
+  overflow:hidden;
+}
+
+.introBg{
+  height:210px;
+  background-image:var(--bgImg);
+  background-size:cover;
+  background-position:center;
+  filter:saturate(1.1) contrast(1.05);
+  position:relative;
+}
+
+.introBg:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.80));
+}
+
+.introBody{
+  padding:18px;
+}
+
+.introTitle{
+  font-size:18px;
+  font-weight:900;
+  letter-spacing:.3px;
+}
+
+.introText{
+  margin-top:8px;
+  font-size:14px;
+  color:rgba(255,255,255,.76);
+  line-height:1.35;
+}
+
+.introBtnRow{
+  margin-top:14px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.primaryBtn{
+  border:0;
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  cursor:pointer;
+  color:#fff;
+  background:linear-gradient(180deg, rgba(255,60,168,.96), rgba(178,60,255,.92));
+}
+
+.secondaryBtn{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.86);
+  border-radius:14px;
+  padding:12px 14px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+/* sukuna popup */
+.sukuna{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:110;
+  background:rgba(0,0,0,.62);
+}
+
+.sukunaCard{
+  width:min(520px,94%);
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(8,0,18,.86);
+  box-shadow:0 34px 140px rgba(0,0,0,.72);
+  transform:translateY(10px) scale(.98);
+  opacity:0;
+  transition:transform .55s ease, opacity .55s ease;
+}
+
+.sukuna.show .sukunaCard{
+  transform:translateY(0) scale(1);
+  opacity:1;
+}
+
+.sukunaImg{
+  width:100%;
+  display:block;
+}
+
+.sukunaBody{
+  padding:16px;
+}
+
+.sukunaTitle{
+  font-size:16px;
+  font-weight:900;
+}
+
+.sukunaText{
+  margin-top:8px;
+  color:rgba(255,255,255,.76);
+  line-height:1.35;
+  font-size:14px;
+}
+
+.sukunaBtnRow{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+  justify-content:flex-end;
+}
+
+/* retry overlay */
+.retryOverlay{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:130;
+  background:rgba(0,0,0,.56);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  opacity:0;
+  transition:opacity .60s ease;
+}
+
+.retryOverlay.show{ opacity:1; }
+
+.retryCard{
+  width:min(520px,95%);
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 34px 140px rgba(0,0,0,.72);
+  transform:translateY(14px) scale(.98);
+  opacity:0;
+  transition:transform .60s ease, opacity .60s ease;
+}
+
+.retryOverlay.show .retryCard{
+  transform:translateY(0) scale(1);
+  opacity:1;
+}
+
+.retryTop{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:12px 14px;
+  background:rgba(0,0,0,.22);
+}
+
+.retryTag{
+  font-weight:900;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+  font-size:12px;
+  padding:8px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+}
+
+.retryClose{
+  border:1px solid rgba(255,255,255,.16);
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.92);
+  border-radius:12px;
+  padding:10px 12px;
+  font-size:14px;
+  cursor:pointer;
+}
+
+.retryImgWrap{
+  position:relative;
+  background:#000;
+  overflow:hidden;
+}
+
+.retryImg{
+  width:100%;
+  display:block;
+  opacity:0;
+  filter:saturate(1.05) contrast(1.05);
+  transform:scale(1.03);
+  transition:opacity 1.1s ease, transform 6.0s ease;
+}
+
+.retryOverlay.show .retryImg{
+  opacity:1;
+  transform:scale(1.12);
+}
+
+.retryBody{
+  padding:16px;
+  text-align:center;
+}
+
+.retryTitle{
+  font-size:18px;
+  font-weight:900;
+  margin:0;
+}
+
+.retryText{
+  margin-top:8px;
+  font-size:15px;
+  font-weight:800;
+}
+
+.retrySub{
+  margin-top:8px;
+  font-size:13px;
+  color:rgba(255,255,255,.72);
+}
+
+.retryCountdown{
+  display:inline-block;
+  margin-top:10px;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(0,0,0,.28);
+  font-weight:900;
+  letter-spacing:.3px;
+  font-size:13px;
+}
+
+.payRespect{
+  margin-top:10px;
+  font-size:13px;
+  color:rgba(255,255,255,.76);
+  text-decoration:underline;
+  cursor:pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* netflix end */
+.netflixEnd{
+  position:absolute;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:rgba(0,0,0,.86);
+  color:#fff;
+  z-index:4;
+  padding:18px;
+}
+
+.netflixEnd.show{ display:flex; }
+
+.netflixInner{
+  width:min(380px,92%);
+  border-radius:18px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(0,0,0,.36);
+  padding:18px 16px;
+  box-shadow:0 30px 90px rgba(0,0,0,.56);
+}
+
+.netflixTitle{
+  font-size:28px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.netflixSub{
+  margin-top:10px;
+  font-size:13px;
+  opacity:.82;
+  letter-spacing:.6px;
+  text-transform:uppercase;
+}
+
+.netflixBtn{
+  margin-top:14px;
+  width:100%;
+  border-radius:14px;
+  padding:12px 14px;
+  font-size:14px;
+  font-weight:900;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.10);
+  color:#fff;
+}
+
+/* impact frames */
+.impact{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  display:none;
+  z-index:100;
+}
+
+.impact.show{ display:block; }
+
+.impact .frame{
+  position:absolute;
+  inset:0;
+  border:14px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 0 0 8px rgba(0,0,0,.55);
+  animation:impactPop .55s ease forwards;
+}
+
+.impact .text{
+  position:absolute;
+  left:50%;
+  top:14%;
+  transform:translateX(-50%);
+  font-weight:900;
+  letter-spacing:.6px;
+  font-size:28px;
+  text-shadow:0 18px 40px rgba(0,0,0,.66);
+  animation:impactText .55s ease forwards;
+}
+
+@keyframes impactPop{
+  0%{ opacity:0; transform:scale(1.05); }
+  20%{ opacity:1; transform:scale(1.00); }
+  100%{ opacity:0; transform:scale(.98); }
+}
+
+@keyframes impactText{
+  0%{ opacity:0; transform:translateX(-50%) translateY(-10px) scale(1.08); }
+  20%{ opacity:1; transform:translateX(-50%) translateY(0) scale(1.00); }
+  100%{ opacity:0; transform:translateX(-50%) translateY(8px) scale(.98); }
+}
+
+/* domain expansion */
+.domain{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:95;
+  display:none;
+}
+
+.domain.show{ display:block; }
+
+.domain .ring{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:10px;height:10px;
+  border-radius:999px;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle, rgba(178,60,255,.30), rgba(255,60,168,.18), transparent 70%);
+  box-shadow:0 0 70px rgba(178,60,255,.28), 0 0 140px rgba(255,60,168,.14);
+  animation:domainExpand 1.6s ease forwards;
+}
+
+@keyframes domainExpand{
+  0%{ width:10px; height:10px; opacity:0; }
+  12%{ opacity:1; }
+  100%{ width:240vmax; height:240vmax; opacity:0; }
+}
+
+/* black flash */
+.flash{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:105;
+  display:none;
+  background:rgba(0,0,0,.0);
+}
+
+.flash.show{
+  display:block;
+  animation:blackFlash 1.0s ease forwards;
+}
+
+@keyframes blackFlash{
+  0%{ background:rgba(0,0,0,0); }
+  10%{ background:rgba(0,0,0,.92); }
+  18%{ background:rgba(255,255,255,.92); }
+  26%{ background:rgba(0,0,0,.92); }
+  60%{ background:rgba(0,0,0,0); }
+  100%{ background:rgba(0,0,0,0); }
+}
+
+/* cursor hearts */
+.cursorHeart{
+  position:fixed;
+  left:0;top:0;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  animation:popFade 900ms ease forwards;
+  filter: drop-shadow(0 10px 20px rgba(178,60,255,.16));
+  opacity:.92;
+  z-index:40;
+}
+
+@keyframes popFade{
+  0%{ opacity:0; transform:translate(-50%,-50%) scale(.65); }
+  12%{ opacity:.92; transform:translate(-50%,-50%) scale(1); }
+  100%{ opacity:0; transform:translate(-50%,-85%) scale(1.25); }
+}
+
+/* FX canvas */
+#fx{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  pointer-events:none;
+}
+
+@media (max-width: 820px){
+  .grid{ grid-template-columns: 1fr; }
+  h1{ font-size:32px; }
+  .card{ padding:22px; min-height:620px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #noBtn{ transition:none; }
+  .avatarAura{ animation:none; }
+  .cursorHeart{ display:none; }
+}
+</style>
+</head>
+
+<body>
+<div class="bgPhoto" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<canvas id="fx"></canvas>
+
+<div class="domain" id="domain" aria-hidden="true"><div class="ring"></div></div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+
+<div class="impact" id="impact" aria-hidden="true">
+  <div class="frame"></div>
+  <div class="text" id="impactText">BLACK FLASH</div>
+</div>
+
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Intro">
+  <div class="introCard">
+    <div class="introBg"></div>
+    <div class="introBody">
+      <div class="introTitle">Jujutsu Kaisen transmission</div>
+      <div class="introText">
+        Tap enter. Full screen button sits on the top right after.
+      </div>
+      <div class="introBtnRow">
+        <button class="primaryBtn" id="enterBtn" type="button">Enter</button>
+        <button class="secondaryBtn" id="skipFsBtn" type="button">Enter without full screen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sukuna" id="sukuna" role="dialog" aria-modal="true" aria-label="Sukuna takeover">
+  <div class="sukunaCard">
+    <img class="sukunaImg" src="assets/sukuna.jpg" alt="Sukuna">
+    <div class="sukunaBody">
+      <div class="sukunaTitle">Sukuna takeover</div>
+      <div class="sukunaText">He is laughing. He wants you to press Yes.</div>
+      <div class="sukunaBtnRow">
+        <button class="secondaryBtn" id="sukunaClose" type="button">Close</button>
+        <button class="primaryBtn" id="sukunaOk" type="button">Fine</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="retryOverlay" id="retryOverlay" aria-hidden="true">
+  <div class="retryCard" role="dialog" aria-modal="true" aria-label="No response">
+    <div class="netflixEnd" id="netflixEnd" aria-hidden="true">
+      <div class="netflixInner">
+        <div class="netflixTitle">THE END</div>
+        <div class="netflixSub">mission failed</div>
+        <button class="netflixBtn" id="netflixClose" type="button">Back</button>
+      </div>
+    </div>
+
+    <div class="retryTop">
+      <div class="retryTag">mission failed</div>
+      <button class="retryClose" id="closeRetry" type="button">Close</button>
+    </div>
+
+    <div class="retryImgWrap">
+      <img id="retryImg" class="retryImg" src="assets/tryagain.jpg" alt="Photo">
+    </div>
+
+    <div class="retryBody">
+      <p class="retryTitle" id="retryTitle">mission failed</p>
+      <div class="retryText" id="retryText">it’s okay i’ll try again next year ❤️</div>
+      <div class="retrySub" id="retrySub">press F to pay respects</div>
+      <div class="payRespect" id="payRespect">press F to pay respects</div>
+      <div class="retryCountdown" id="retryCountdown">next attempt in …</div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="topRow">
+    <div>
+      <h1>Lucy Yun, will you be my Valentine?</h1>
+      <div class="sub" id="subLine">Dinner at your choice and free flow champagne?</div>
+    </div>
+    <button class="fsBtn" id="fsBtn" type="button">Full screen</button>
+  </div>
+
+  <div class="grid">
+    <div class="tile">
+      <div class="badgeLine">
+        <div class="avatar" aria-hidden="true">
+          <div class="avatarAura" aria-hidden="true"></div>
+          <div class="avatarFace" id="avatarFace">🌀</div>
+        </div>
+        <div>
+          <div class="smallText" id="avatarText">Yuji is watching.</div>
+          <div class="smallText" id="avatarMini">Hover No for cursed chaos.</div>
+        </div>
+      </div>
+
+      <div class="row" id="btnRow">
+        <button id="yesBtn" type="button">
+          <span class="cursedRing" aria-hidden="true"></span>
+          Yes
+        </button>
+        <button id="noBtn" type="button">
+          <span class="cursedRing" aria-hidden="true"></span>
+          No
+        </button>
+      </div>
+
+      <div class="note" id="msg">Pick your answer. No pressure.</div>
+
+      <div class="altNo">
+        No button left the chat. Tap
+        <a id="noThanks">No thanks</a>
+      </div>
+
+      <div class="small">No data saved.</div>
+    </div>
+
+    <div class="tile">
+      <img id="panelImg" class="panelImg" src="assets/yuji.jpg" alt="Yuji Itadori">
+      <div class="panelTitle" id="panelTitle">Yuji Itadori corner</div>
+      <div class="panelSub" id="panelSub">If you press Yes, you trigger Domain Expansion.</div>
+      <div class="panelTags">
+        <div class="tag" id="tag1">cursed energy</div>
+        <div class="tag" id="tag2">black flash</div>
+        <div class="tag" id="tag3">sukuna</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const FX_TEMPO = 0.72;
+
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const noThanks = document.getElementById("noThanks");
+const msg = document.getElementById("msg");
+const subLine = document.getElementById("subLine");
+
+const avatarFace = document.getElementById("avatarFace");
+const avatarText = document.getElementById("avatarText");
+const avatarMini = document.getElementById("avatarMini");
+
+const btnRow = document.getElementById("btnRow");
+
+const intro = document.getElementById("intro");
+const enterBtn = document.getElementById("enterBtn");
+const skipFsBtn = document.getElementById("skipFsBtn");
+const fsBtn = document.getElementById("fsBtn");
+
+const sukuna = document.getElementById("sukuna");
+const sukunaClose = document.getElementById("sukunaClose");
+const sukunaOk = document.getElementById("sukunaOk");
+
+const retryOverlay = document.getElementById("retryOverlay");
+const closeRetry = document.getElementById("closeRetry");
+const retryCountdown = document.getElementById("retryCountdown");
+const netflixEnd = document.getElementById("netflixEnd");
+const netflixClose = document.getElementById("netflixClose");
+const payRespect = document.getElementById("payRespect");
+
+const domain = document.getElementById("domain");
+const flash = document.getElementById("flash");
+const impact = document.getElementById("impact");
+const impactText = document.getElementById("impactText");
+
+const fx = document.getElementById("fx");
+const fctx = fx.getContext("2d");
+
+function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+function pad2(n){ return String(n).padStart(2,"0"); }
+function slow(n){ return n * FX_TEMPO; }
+
+function vibrate(pattern){
+  try{ if(navigator.vibrate) navigator.vibrate(pattern); }catch(e){}
+}
+
+/* full screen */
+async function goFullScreen(){
+  try{
+    const el = document.documentElement;
+    if(el.requestFullscreen) await el.requestFullscreen();
+  }catch(e){}
+}
+fsBtn.addEventListener("click", goFullScreen);
+
+/* intro enter */
+function enter(flowFullScreen){
+  if(flowFullScreen) goFullScreen();
+  vibrate([16,24,16]);
+  intro.style.display = "none";
+  setTimeout(layoutButtons, 30);
+  setTimeout(()=>{ showSukunaOnce(); }, 800);
+}
+enterBtn.addEventListener("click", ()=>enter(true));
+skipFsBtn.addEventListener("click", ()=>enter(false));
+
+/* sukuna popup */
+let sukunaShown = false;
+function showSukunaOnce(){
+  if(sukunaShown) return;
+  sukunaShown = true;
+  sukuna.style.display = "flex";
+  requestAnimationFrame(()=> sukuna.classList.add("show"));
+  vibrate([30, 60, 30]);
+}
+function hideSukuna(){
+  sukuna.classList.remove("show");
+  setTimeout(()=>{ sukuna.style.display = "none"; }, 520);
+}
+sukunaClose.addEventListener("click", hideSukuna);
+sukunaOk.addEventListener("click", hideSukuna);
+sukuna.addEventListener("click",(e)=>{ if(e.target === sukuna) hideSukuna(); });
+
+/* centered buttons */
+function layoutButtons(){
+  const rowRect = btnRow.getBoundingClientRect();
+  const gap = 22;
+
+  const yesW = yesBtn.offsetWidth;
+  const noW = noBtn.offsetWidth;
+
+  const total = yesW + gap + noW;
+  const startLeft = (rowRect.width - total) / 2;
+
+  yesBtn.style.left = Math.max(10, Math.round(startLeft)) + "px";
+  yesBtn.style.top = "50%";
+  yesBtn.style.transform = "translateY(-50%)";
+
+  noBtn.style.left = Math.round(startLeft + yesW + gap) + "px";
+  noBtn.style.top = "50%";
+  noBtn.style.transform = "translateY(-50%)";
+}
+window.addEventListener("resize", layoutButtons);
+
+/* cursor hearts */
+let lastCursorHeart = 0;
+function cursorHearts(e){
+  const now = performance.now();
+  if(now - lastCursorHeart < 26) return;
+  lastCursorHeart = now;
+
+  const ch = document.createElement("div");
+  ch.className = "cursorHeart";
+  const chars = ["❤","♥","❥","♡"];
+  ch.textContent = chars[Math.floor(Math.random()*chars.length)];
+  ch.style.fontSize = (12 + Math.floor(Math.random()*10)) + "px";
+  ch.style.left = e.clientX + "px";
+  ch.style.top = e.clientY + "px";
+  document.body.appendChild(ch);
+  setTimeout(()=> ch.remove(), 920);
+}
+window.addEventListener("pointermove", cursorHearts, { passive:true });
+
+/* text sets */
+const faces = ["🌀","💥","⚡","🖤","🧿","👊","🔥","💀"];
+const avatarLines = [
+  { t:"Yuji is watching.", m:"Hover No for cursed chaos." },
+  { t:"Cursed energy rising.", m:"No is in danger." },
+  { t:"Sukuna is smiling.", m:"Try catching No." },
+  { t:"Black Flash timing.", m:"One more hover." },
+  { t:"Domain pressure.", m:"No is running laps." }
+];
+
+const hoverLines = [
+  "Lucy, cursed energy says no to No.",
+  "Lucy, Sukuna is laughing.",
+  "Lucy, Yuji is sprinting at No.",
+  "Lucy, the decision is shaking.",
+  "Lucy, one more try."
+];
+
+const pinkBoxLines = [
+  "No is running.",
+  "Cursed aura around the buttons.",
+  "Yuji says press Yes.",
+  "Sukuna says press Yes.",
+  "Domain Expansion loading."
+];
+
+/* stable hover updates */
+let hoverCount = 0;
+let lastMsgAt = 0;
+
+/* pointer tracking */
+let lastPointer = { x: 0, y: 0 };
+window.addEventListener("pointermove",(e)=>{
+  lastPointer.x = e.clientX;
+  lastPointer.y = e.clientY;
+},{ passive:true });
+
+function setAvatar(idx){
+  const f = faces[idx % faces.length];
+  avatarFace.textContent = f;
+
+  const pick = avatarLines[idx % avatarLines.length];
+  avatarText.textContent = pick.t;
+  avatarMini.textContent = pick.m;
+}
+
+/* no runs smarter */
+function intersects(a, b){
+  return !(a.right < b.left || a.left > b.right || a.bottom < b.top || a.top > b.bottom);
+}
+
+function moveNoSmart(){
+  const rowRect = btnRow.getBoundingClientRect();
+  const btnW = noBtn.offsetWidth;
+  const btnH = noBtn.offsetHeight;
+
+  const pad = 10;
+  const minX = pad;
+  const maxX = Math.max(pad, rowRect.width - btnW - pad);
+
+  const minY = pad;
+  const maxY = Math.max(pad, rowRect.height - btnH - pad);
+
+  const pointerX = clamp(lastPointer.x - rowRect.left, 0, rowRect.width);
+  const currLeft = parseFloat(getComputedStyle(noBtn).left) || 0;
+
+  const away = 1.0 + Math.min(hoverCount * 0.08, 1.3);
+  const biasX = currLeft < pointerX ? -1 : 1;
+
+  const yesR = yesBtn.getBoundingClientRect();
+  const gap = 14;
+
+  let best = null;
+  for(let tries=0; tries<16; tries++){
+    const chaosX = clamp(160 + hoverCount * 24, 160, 540);
+    const chaosY = clamp(36 + hoverCount * 6, 36, 92);
+
+    let newLeft = currLeft + biasX * away * (40 + Math.random() * chaosX) + (Math.random()*44 - 22);
+    let newTop  = (rowRect.height * 0.5) + (Math.random() * chaosY - chaosY / 2);
+
+    newLeft = clamp(newLeft, minX, maxX);
+    newTop  = clamp(newTop, minY, maxY);
+
+    const candAbs = {
+      left: rowRect.left + newLeft,
+      top: rowRect.top + newTop,
+      right: rowRect.left + newLeft + btnW,
+      bottom: rowRect.top + newTop + btnH
+    };
+
+    const expandedYes = {
+      left: yesR.left - gap,
+      top: yesR.top - gap,
+      right: yesR.right + gap,
+      bottom: yesR.bottom + gap
+    };
+
+    const nearPointer = Math.hypot((candAbs.left + btnW/2) - lastPointer.x, (candAbs.top + btnH/2) - lastPointer.y);
+    const safePointer = nearPointer > (110 + hoverCount * 12);
+    const overlapsYes = intersects(candAbs, expandedYes);
+
+    if(safePointer && !overlapsYes){
+      best = { left:newLeft, top:newTop };
+      break;
+    }
+    if(!best) best = { left:newLeft, top:newTop };
+  }
+
+  noBtn.style.left = Math.round(best.left) + "px";
+  noBtn.style.top = Math.round(best.top) + "px";
+}
+
+/* FX system */
+function resizeFX(){
+  const dpr = window.devicePixelRatio || 1;
+  fx.width = Math.floor(window.innerWidth * dpr);
+  fx.height = Math.floor(window.innerHeight * dpr);
+  fctx.setTransform(dpr,0,0,dpr,0,0);
+}
+resizeFX();
+window.addEventListener("resize", resizeFX);
+
+let particles = [];
+let fxOn = false;
+
+function addParticle(p){ particles.push(p); fxOn = true; }
+
+function burstHearts(x,y,count,broken){
+  const chars = broken ? ["💔","💔","♡"] : ["❤","♥","❥","♡"];
+  for(let i=0;i<count;i++){
+    const a = Math.random() * Math.PI * 2;
+    const sp = slow(1.9 + Math.random() * 4.3);
+    addParticle({
+      type:"text",
+      ch: chars[Math.floor(Math.random()*chars.length)],
+      x,y,
+      vx: Math.cos(a)*sp,
+      vy: Math.sin(a)*sp - slow(1.2 + Math.random()*2.0),
+      g: slow(0.055 + Math.random()*0.05),
+      life: 1.0,
+      d: 0.010 + Math.random()*0.010,
+      s: 14 + Math.random()*16,
+      rot: (Math.random()-0.5)*0.5,
+      a: 0.92
+    });
+  }
+}
+
+function cursedEnergy(x,y,count){
+  for(let i=0;i<count;i++){
+    const a = Math.random()*Math.PI*2;
+    const sp = slow(1.4 + Math.random()*3.4);
+    addParticle({
+      type:"orb",
+      x,y,
+      vx: Math.cos(a)*sp,
+      vy: Math.sin(a)*sp - slow(0.6 + Math.random()*1.2),
+      g: slow(0.05),
+      life: 1.0,
+      d: 0.010 + Math.random()*0.012,
+      r: 2.0 + Math.random()*3.8,
+      a: 0.95
+    });
+  }
+}
+
+function fireworks(x,y){
+  const rings = 2;
+  const sparks = 34;
+  for(let k=0;k<rings;k++){
+    const base = Math.random()*Math.PI*2;
+    for(let i=0;i<sparks;i++){
+      const a = base + (i/sparks)*Math.PI*2;
+      const sp = slow(1.7 + Math.random()*3.8);
+      addParticle({
+        type:"spark",
+        x,y,
+        vx: Math.cos(a)*sp,
+        vy: Math.sin(a)*sp - slow(0.85 + Math.random()*1.0),
+        g: slow(0.06),
+        life: 1.0,
+        d: 0.010 + Math.random()*0.012,
+        a: 0.95
+      });
+    }
+    burstHearts(x,y,10,false);
+  }
+}
+
+function drawFX(){
+  if(!fxOn) return;
+  fctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+
+  particles = particles.filter(p => p.life > 0.02);
+
+  for(const p of particles){
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += p.g;
+    p.life -= p.d;
+
+    if(p.type === "spark"){
+      fctx.globalAlpha = p.life * p.a;
+      fctx.fillStyle = "rgba(255,255,255,1)";
+      fctx.beginPath();
+      fctx.arc(p.x,p.y,2.0,0,Math.PI*2);
+      fctx.fill();
+      continue;
+    }
+
+    if(p.type === "orb"){
+      fctx.globalAlpha = p.life * p.a;
+      const g = fctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
+      g.addColorStop(0,"rgba(178,60,255,.95)");
+      g.addColorStop(0.4,"rgba(255,60,168,.35)");
+      g.addColorStop(1,"rgba(0,0,0,0)");
+      fctx.fillStyle = g;
+      fctx.beginPath();
+      fctx.arc(p.x,p.y,p.r*6,0,Math.PI*2);
+      fctx.fill();
+      continue;
+    }
+
+    if(p.type === "text"){
+      fctx.save();
+      fctx.globalAlpha = clamp(p.life,0,1) * p.a;
+      fctx.translate(p.x,p.y);
+      fctx.rotate(p.rot);
+      fctx.font = Math.round(p.s) + "px system-ui, -apple-system, Segoe UI, Roboto, Arial";
+      fctx.fillStyle = "rgba(255,60,168,1)";
+      fctx.fillText(p.ch, -p.s/2, p.s/2);
+      fctx.restore();
+      continue;
+    }
+  }
+
+  if(particles.length === 0){
+    fxOn = false;
+    fctx.clearRect(0,0,window.innerWidth,window.innerHeight);
+    return;
+  }
+  requestAnimationFrame(drawFX);
+}
+function startFX(){ if(fxOn) requestAnimationFrame(drawFX); }
+
+/* domain expansion + black flash + impact */
+function domainExpansion(){
+  domain.classList.remove("show");
+  void domain.offsetWidth;
+  domain.classList.add("show");
+  setTimeout(()=> domain.classList.remove("show"), 1700);
+}
+
+function blackFlash(){
+  flash.classList.remove("show");
+  void flash.offsetWidth;
+  flash.classList.add("show");
+  setTimeout(()=> flash.classList.remove("show"), 1050);
+
+  impactText.textContent = "BLACK FLASH";
+  impact.classList.remove("show");
+  void impact.offsetWidth;
+  impact.classList.add("show");
+  setTimeout(()=> impact.classList.remove("show"), 600);
+}
+
+function impactFrame(text){
+  impactText.textContent = text;
+  impact.classList.remove("show");
+  void impact.offsetWidth;
+  impact.classList.add("show");
+  setTimeout(()=> impact.classList.remove("show"), 600);
+}
+
+/* hover chaos trigger */
+function triggerNoChaos(){
+  hoverCount += 1;
+
+  const now = performance.now();
+  if(now - lastMsgAt > 360){
+    const i1 = Math.min(hoverCount - 1, hoverLines.length - 1);
+    const i2 = Math.min(hoverCount - 1, pinkBoxLines.length - 1);
+    msg.textContent = pinkBoxLines[i2] + " " + hoverLines[i1];
+    lastMsgAt = now;
+  }
+
+  setAvatar(hoverCount);
+
+  const ms = clamp(160 - hoverCount * 10, 50, 160);
+  noBtn.style.transitionDuration = ms + "ms";
+
+  cursedEnergy(lastPointer.x, lastPointer.y, 10);
+  startFX();
+
+  moveNoSmart();
+}
+
+/* desktop hover */
+noBtn.addEventListener("pointerenter",(e)=>{
+  if(e.pointerType === "touch") return;
+  triggerNoChaos();
+});
+noBtn.addEventListener("pointermove",(e)=>{
+  if(e.pointerType === "touch") return;
+  if(hoverCount > 0) triggerNoChaos();
+});
+
+/* mobile tap */
+let lastNoTapAt = 0;
+noBtn.addEventListener("pointerdown",(e)=>{
+  const isTouch = e.pointerType === "touch";
+  if(!isTouch){
+    triggerNoChaos();
+    return;
+  }
+
+  vibrate([18]);
+  const now = Date.now();
+  if(now - lastNoTapAt < 650){
+    lastNoTapAt = 0;
+    askNo();
+    return;
+  }
+  lastNoTapAt = now;
+  triggerNoChaos();
+});
+
+/* block accidental click on coarse pointer unless double tap */
+noBtn.addEventListener("click", (e)=>{
+  if(window.matchMedia("(pointer:coarse)").matches) return;
+  askNo();
+});
+
+/* retry overlay */
+let countdownTimer = null;
+const targetDate = new Date(2027, 1, 10, 0, 0, 0, 0);
+
+function updateCountdown(){
+  const now = new Date();
+  let ms = targetDate - now;
+  if(ms < 0) ms = 0;
+
+  const total = Math.floor(ms / 1000);
+  const d = Math.floor(total / 86400);
+  const h = Math.floor((total % 86400) / 3600);
+  const m = Math.floor((total % 3600) / 60);
+  const s = total % 60;
+
+  retryCountdown.textContent = "next attempt in " + d + "d " + pad2(h) + ":" + pad2(m) + ":" + pad2(s);
+}
+
+function openRetry(){
+  netflixEnd.classList.remove("show");
+  netflixEnd.setAttribute("aria-hidden","true");
+
+  retryOverlay.style.display = "flex";
+  retryOverlay.setAttribute("aria-hidden","false");
+  requestAnimationFrame(()=> retryOverlay.classList.add("show"));
+
+  updateCountdown();
+  if(countdownTimer) clearInterval(countdownTimer);
+  countdownTimer = setInterval(updateCountdown, 300);
+}
+
+function closeRetryOverlay(){
+  retryOverlay.classList.remove("show");
+  retryOverlay.setAttribute("aria-hidden","true");
+  if(countdownTimer) clearInterval(countdownTimer);
+  countdownTimer = null;
+  setTimeout(()=>{ retryOverlay.style.display = "none"; }, 650);
+}
+
+closeRetry.addEventListener("click", closeRetryOverlay);
+retryOverlay.addEventListener("click",(e)=>{ if(e.target === retryOverlay) closeRetryOverlay(); });
+
+function showNetflixEnd(){
+  netflixEnd.classList.add("show");
+  netflixEnd.setAttribute("aria-hidden","false");
+}
+payRespect.addEventListener("click", showNetflixEnd);
+document.addEventListener("keydown",(e)=>{
+  if(retryOverlay.style.display !== "flex") return;
+  if(e.key === "f" || e.key === "F") showNetflixEnd();
+});
+netflixClose.addEventListener("click", ()=>{
+  netflixEnd.classList.remove("show");
+  netflixEnd.setAttribute("aria-hidden","true");
+});
+
+/* No action */
+function askNo(){
+  vibrate([30,40,30]);
+  blackFlash();
+  impactFrame("MISSION FAILED");
+
+  burstHearts(window.innerWidth*0.5, window.innerHeight*0.55, 22, true);
+  cursedEnergy(window.innerWidth*0.5, window.innerHeight*0.55, 28);
+  startFX();
+
+  const ok = window.confirm("Lucy, are you sure?");
+  if(ok){
+    msg.textContent = "Okay. Thanks for being honest.";
+    subLine.textContent = "Next attempt scheduled.";
+    openRetry();
+  }else{
+    msg.textContent = "No rush. Take your time.";
+    subLine.textContent = "Dinner at your choice and free flow champagne?";
+  }
+}
+
+noThanks.addEventListener("click", askNo);
+
+/* Yes action */
+function yesSequence(){
+  vibrate([22,40,22,40,22]);
+
+  msg.textContent = "Lucy pressed Yes. Domain Expansion activated.";
+  subLine.textContent = "Yuji approves. Sukuna is coping.";
+
+  yesBtn.disabled = true;
+  noBtn.disabled = true;
+  yesBtn.style.opacity = "0.92";
+  noBtn.style.opacity = "0.60";
+
+  domainExpansion();
+
+  setTimeout(()=>{ blackFlash(); }, 420);
+  setTimeout(()=>{ impactFrame("DOMAIN EXPANSION"); }, 520);
+
+  const cx = window.innerWidth*0.5;
+  const cy = window.innerHeight*0.52;
+
+  setTimeout(()=>{
+    burstHearts(cx, cy, 60, false);
+    cursedEnergy(cx, cy, 90);
+    fireworks(cx, cy - 120);
+    fireworks(cx - 150, cy - 30);
+    fireworks(cx + 150, cy - 30);
+    startFX();
+  }, 620);
+}
+yesBtn.addEventListener("click", yesSequence);
+
+/* image errors */
+document.getElementById("panelImg").addEventListener("error", ()=>{
+  msg.textContent = "Missing assets/yuji.jpg";
+});
+document.getElementById("retryImg").addEventListener("error", ()=>{
+  msg.textContent = "Missing assets/tryagain.jpg";
+});
+
+/* first paint */
+setTimeout(layoutButtons, 50);
+</script>
+</body>
+</html>
